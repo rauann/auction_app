@@ -1,0 +1,2 @@
+<h1>User Registration</h1>
+  <%= render("form.html", user: @user, action: Routes.user_path(@conn, :create)) %>

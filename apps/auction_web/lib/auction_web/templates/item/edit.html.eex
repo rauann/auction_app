@@ -1,0 +1,2 @@
+<h2>Edit</h2>
+  <%= render("form.html", item: @item, action: Routes.item_path(@conn, :update, @item.data)) %>

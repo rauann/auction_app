@@ -1,0 +1,5 @@
+<ul>
+  <%= for item <- @items do %>
+    <li><%= link(item.title, to: Routes.item_path(@conn, :show, item)) %></li>
+  <% end %>
+</ul>
