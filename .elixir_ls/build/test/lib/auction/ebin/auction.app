@@ -3,9 +3,10 @@
                              pbkdf2_elixir,postgrex,ecto_sql,ex_machina]},
               {description,"auction"},
               {modules,['Elixir.Auction','Elixir.Auction.Application',
-                        'Elixir.Auction.Factory','Elixir.Auction.FakeRepo',
-                        'Elixir.Auction.Item','Elixir.Auction.Password',
-                        'Elixir.Auction.Repo','Elixir.Auction.User']},
+                        'Elixir.Auction.Bid','Elixir.Auction.Factory',
+                        'Elixir.Auction.FakeRepo','Elixir.Auction.Item',
+                        'Elixir.Auction.Password','Elixir.Auction.Repo',
+                        'Elixir.Auction.User']},
               {registered,[]},
               {vsn,"0.1.0"},
               {mod,{'Elixir.Auction.Application',[]}}]}.

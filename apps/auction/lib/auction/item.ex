@@ -6,6 +6,9 @@ defmodule Auction.Item do
     field(:title, :string)
     field(:description, :string)
     field(:ends_at, :utc_datetime)
+
+    # you need to eagerly preload relations in order to retrieve, Ecto just grab from db what you explicitly ask for
+    has_many(:bids, Auction.Bid)
     timestamps()
   end
 

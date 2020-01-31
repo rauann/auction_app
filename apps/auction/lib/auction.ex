@@ -1,6 +1,7 @@
 defmodule Auction do
-  alias Auction.{Repo, Item, User, Password}
+  alias Auction.{Repo, Item, User, Bid, Password}
 
+  import Ecto.Query
   # keep db and public interface separate (avoid call Auction.Repo directly)
   @repo Repo
 
@@ -58,5 +59,33 @@ defmodule Auction do
     else
       _ -> Password.dummy_verify()
     end
+  end
+
+  def new_bid, do: Bid.changeset(%Bid{})
+
+  def insert_bid(params) do
+    %Bid{}
+    |> Bid.changeset(params)
+    |> @repo.insert()
+  end
+
+  def get_item_with_bids(id) do
+    id
+    |> get_item()
+    # preload the item's bids and the users for those bids
+    |> @repo.preload(bids: [:user])
+  end
+
+  def get_bids_for_user(user) do
+    query =
+      from(b in Bid,
+        where: b.user_id == ^user.id,
+        order_by: [desc: :inserted_at],
+        preload: :item,
+        limit: 10
+      )
+
+    IO.inspect(query)
+    @repo.all(query)
   end
 end
