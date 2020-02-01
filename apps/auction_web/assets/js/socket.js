@@ -55,9 +55,26 @@ let socket = new Socket("/socket", {params: {token: window.userToken}})
 socket.connect()
 
 // Now that you are connected, you can join channels with a topic:
-let channel = socket.channel("topic:subtopic", {})
-channel.join()
-  .receive("ok", resp => { console.log("Joined successfully", resp) })
-  .receive("error", resp => { console.log("Unable to join", resp) })
+let match = document.location.pathname.match(/\/items\/(\d+)$/)
+
+if (match) {
+  let itemId = match[1]
+  let channel = socket.channel(`item:${itemId}`, {})
+
+
+  // listening 'new_bid' message event type from the server
+  channel.on("new_bid", data => {
+    console.log("new bid message received", data)
+    const elem = document.getElementById("bids")
+    elem.insertAdjacentHTML("afterbegin", data.body)
+  })
+
+  channel.join()
+    .receive("ok", resp => { console.log("Joined successfully", resp) })
+    .receive("error", resp => { console.log("Unable to join", resp) })
+
+  // uncomment to push 'new_bid' event to the server after join (handle by handle_in on phoenix channel)
+  // channel.push("new_bid", {"foo": "bar"})
+}
 
 export default socket
