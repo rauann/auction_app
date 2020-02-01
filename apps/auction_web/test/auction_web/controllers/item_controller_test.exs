@@ -4,8 +4,7 @@ defmodule AuctionWeb.ItemControllerTest do
   import Auction.Factory
 
   setup do
-    Auction.Repo.delete_all(Auction.Item)
-    :ok
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Auction.Repo)
   end
 
   test "GET /items/:id", %{conn: conn} do

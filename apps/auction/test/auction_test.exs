@@ -1,13 +1,12 @@
 defmodule AuctionTest do
   use ExUnit.Case
 
-  alias Auction.{Repo, Item}
+  alias Auction.Repo
 
   import Auction.Factory
 
   setup do
-    Repo.delete_all(Item)
-    :ok
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Repo)
   end
 
   test "list_items/0" do

@@ -12,7 +12,8 @@ defmodule Auction.MixProject do
       elixir: "~> 1.9",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-      elixirc_paths: elixirc_paths(Mix.env())
+      elixirc_paths: elixirc_paths(Mix.env()),
+      aliases: aliases()
     ]
   end
 
@@ -37,5 +38,10 @@ defmodule Auction.MixProject do
 
   # using test/support/factory.ex on all envs
   defp elixirc_paths(_), do: ["lib", "test/support"]
+
   # defp elixirc_paths(_), do: ["lib"]
+
+  defp aliases do
+    [test: ["ecto.drop --quiet", "ecto.create --quiet", "ecto.migrate --quiet", "test"]]
+  end
 end
