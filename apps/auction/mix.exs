@@ -36,12 +36,14 @@ defmodule Auction.MixProject do
     ]
   end
 
-  # using test/support/factory.ex on all envs
+  # Specifies which paths to compile per environment.
   defp elixirc_paths(_), do: ["lib", "test/support"]
 
-  # defp elixirc_paths(_), do: ["lib"]
-
   defp aliases do
-    [test: ["ecto.drop --quiet", "ecto.create --quiet", "ecto.migrate --quiet", "test"]]
+    [
+      "ecto.setup": ["ecto.create", "ecto.migrate"],
+      "ecto.reset": ["ecto.drop", "ecto.setup"],
+      test: ["ecto.create --quiet", "ecto.migrate", "test"]
+    ]
   end
 end

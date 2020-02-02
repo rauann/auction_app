@@ -19,19 +19,6 @@ config :auction_web, AuctionWeb.Endpoint,
   render_errors: [view: AuctionWeb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: AuctionWeb.PubSub, adapter: Phoenix.PubSub.PG2]
 
-# Sample configuration:
-#
-#     config :logger, :console,
-#       level: :info,
-#       format: "$date $time [$level] $metadata$message\n",
-#       metadata: [:user_id]
-#
-
-# Configures Elixir's Logger
-# config :logger, :console,
-#   format: "$time $metadata[$level] $message\n",
-#   metadata: [:request_id]
-
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
