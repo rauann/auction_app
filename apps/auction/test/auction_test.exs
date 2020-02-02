@@ -1,9 +1,10 @@
 defmodule AuctionTest do
   use ExUnit.Case
 
-  alias Auction.Repo
+  alias Auction.{Repo, Item}
 
   import Auction.Factory
+  import Ecto.Query, only: [from: 2]
 
   setup do
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(Repo)
@@ -26,12 +27,24 @@ defmodule AuctionTest do
     assert Auction.get_item_by(title: title, description: description) == item
   end
 
-  test "insert_item/1" do
-    item = params_for(:item)
-    assert {:ok, _} = Auction.insert_item(item)
+  describe "insert_item/1" do
+    setup do
+      item_params = params_for(:item)
+      {:ok, item_params: item_params}
+    end
 
-    title = item.title
-    assert %{title: ^title} = Auction.get_item_by(title: item.title)
+    # ways to test db persistence
+    test "insert_item/1", %{item_params: %{title: title} = item_params} do
+      assert {:ok, _} = Auction.insert_item(item_params)
+      assert %{title: ^title} = Auction.get_item_by(title: title)
+    end
+
+    test "insert_item/1 (test count)", %{item_params: item_params} do
+      count_query = from(i in Item, select: count(i.id))
+      assert Repo.one(count_query) == 0
+      Auction.insert_item(item_params)
+      assert Repo.one(count_query) == 1
+    end
   end
 
   test "delete_item/1" do
